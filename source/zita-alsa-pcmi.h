@@ -1,6 +1,7 @@
  // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2006-2022 Fons Adriaensen <fons@linuxaudio.org>
+//  Copyright (C) 2014-2021 Robin Gareus <robin@gareus.org>
 //    
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -44,15 +45,16 @@ public:
                const char        *ctrl_name,
                unsigned int       rate,
                unsigned int       frsize,
-               unsigned int       nfrags,
+               unsigned int       play_nfrags,
+               unsigned int       capt_nfrags,
                unsigned int       debug = 0);
 
     ~Alsa_pcmi (void);  
 
     enum
     {
-	STATE_OPEN = 0,
-	STATE_FAIL = 1
+        STATE_OPEN = 0,
+        STATE_FAIL = 1
     };
     
     enum 
@@ -112,7 +114,8 @@ public:
     int state (void) const { return _state; }
     int fsamp (void) const { return _fsamp; } 
     int fsize (void) const { return _fsize; } 
-    int nfrag (void) const { return _nfrag; } 
+    int play_nfrag (void) const { return _play_nfrag; } 
+    int capt_nfrag (void) const { return _capt_nfrag; } 
     int nplay (void) const { return _play_nchan; }
     int ncapt (void) const { return _capt_nchan; }
     snd_pcm_t *play_handle (void) const { return _play_handle; }
@@ -128,7 +131,7 @@ private:
     enum { MAXPFD = 16, MAXCHAN = 256 };
 
     void initialise (const char *play_name, const char *capt_name, const char *ctrl_name);
-    int set_hwpar (snd_pcm_t *handle, snd_pcm_hw_params_t *hwpar, const char *sname, unsigned int *nchan);
+    int set_hwpar (snd_pcm_t *handle, snd_pcm_hw_params_t *hwpar, const char *sname, unsigned int nfrag, unsigned int *nchan);
     int set_swpar (snd_pcm_t *handle, snd_pcm_sw_params_t *swpar, const char *sname);
     int recover (void);
     float xruncheck (snd_pcm_status_t *stat);
@@ -158,7 +161,9 @@ private:
     
     unsigned int           _fsamp;
     snd_pcm_uframes_t      _fsize;
-    unsigned int           _nfrag;
+    unsigned int           _real_nfrag;
+    unsigned int           _play_nfrag;
+    unsigned int           _capt_nfrag;
     unsigned int           _debug;
     int                    _state;
     snd_pcm_t             *_play_handle;

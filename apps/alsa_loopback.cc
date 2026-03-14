@@ -32,7 +32,8 @@ static char  playdev [256];
 static char  captdev [256];
 static int   fsamp;
 static int   frsize;
-static int   nfrags;
+static int   playnfrags;
+static int   captnfrags;
 
 
 class Audiothr : public Pxthread
@@ -53,7 +54,7 @@ void Audiothr::thr_main (void)
     buf = new float [frsize * 2];
 
     // Create and initialise the audio device.
-    D = new Alsa_pcmi (playdev, captdev, 0, fsamp, frsize, nfrags, 0);
+    D = new Alsa_pcmi (playdev, captdev, 0, fsamp, frsize, playnfrags, captnfrags, 0);
     if (D->state ()) 
     {
 	fprintf (stderr, "Can't open ALSA device\n");
@@ -116,7 +117,7 @@ int main (int ac, char *av [])
 
     if (ac < 6)
     {
-	fprintf (stderr, "alsa-loopback <playdev> <captdev> <fsamp> <frsize> <nfrags>\n");
+	fprintf (stderr, "alsa-loopback <playdev> <captdev> <fsamp> <frsize> <playnfrags> <captnfrags>\n");
         return 1;
     }
 
@@ -124,7 +125,8 @@ int main (int ac, char *av [])
     strcpy (captdev, av [2]);
     fsamp  = atoi (av [3]);
     frsize = atoi (av [4]);
-    nfrags = atoi (av [5]);
+    playnfrags = atoi (av [5]);
+    captnfrags = atoi (av [6]);
 
     // Run a real-time thread to handle audio.
     if (A.thr_start (SCHED_FIFO, -50, 0x20000))
