@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.24)
 project(zita-alsa-pcmi)
 
-option(ZAP_BUILD_SHARED_LIB "Build the zita-alsa-pcmi shared library." ON)
+option(ZAP_BUILD_SHARED_LIB "Build zita-alsa-pcmi shared library in addition to object library." ON)
 option(ZAP_BUILD_APPS "Build the alsa_delay and alsa_loopback applications." ON)
 option(ZAP_USE_SHARED_LIB "Use shared library (local if built, else installed) instead of built object library." ${ZAP_BUILD_SHARED_LIB})
 

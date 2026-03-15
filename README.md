@@ -14,12 +14,12 @@ configurations.
 
 ### Options
 
-- `ZAP_BUILD_SHARED_LIB` (default: OFF): Build the shared library in addition to
+- `ZAP_BUILD_SHARED_LIB` (default: ON): Build the shared library in addition to
   the object library. When ON, creates `libzita-alsa-pcmi.so` that can be
   installed.
-- `ZAP_BUILD_APPS` (default: OFF): Build the example applications
+- `ZAP_BUILD_APPS` (default: ON): Build the example applications
   (`alsa_loopback` and `alsa_delay`).
-- `ZAP_USE_SHARED_LIB` (default: OFF): For applications, use the shared library
+- `ZAP_USE_SHARED_LIB` (default: ON): For applications, use the shared library
   instead of direct object inclusion. When ON and `ZAP_BUILD_SHARED_LIB` is ON,
   uses the locally built shared lib; otherwise, uses an installed shared lib.
 

@@ -1,7 +1,5 @@
 # CMakeLists.txt for source directory
 
-option(ZAP_BUILD_SHARED_LIB "Build zita-alsa-pcmi shared library in addition to object library." OFF)
-
 # Find dependencies
 find_library(ASOUND_LIB NAMES asound REQUIRED)
 message(STATUS "Finding libasound: ${ASOUND_LIB}")
