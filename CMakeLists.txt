@@ -2,55 +2,29 @@
 cmake_minimum_required(VERSION 3.24)
 project(zita-alsa-pcmi)
 
-find_library(ZAP_ASOUND_LIB NAMES asound)
-message(STATUS "Finding libasound: ${ZAP_ASOUND_LIB}")
+option(ZAP_BUILD_APPS "Build the applications." OFF)
+option(ZAP_USE_SHARED_LIB "Use shared library (local if built, else installed) instead of object library." OFF)
 
-find_library(ZAP_PTHREAD_LIB NAMES pthread)
-message(STATUS "Finding libpthread: ${ZAP_PTHREAD_LIB}")
+add_subdirectory(source)
 
-find_library(ZAP_RT_LIB NAMES rt)
-message(STATUS "Finding librt: ${ZAP_RT_LIB}")
-
-option(ZAP_BUILD_LIB "Build zita-alsa-pcmi library." ON)
-if(ZAP_BUILD_LIB)
-    message(STATUS "Building library zita-alsa-pcmi.")
-    
-    # Create zita-alsa-pcmi library
-    add_library(zita-alsa-pcmi STATIC source/zita-alsa-pcmi.cc source/zita-alsa-pcmi.h)
-    target_link_libraries(zita-alsa-pcmi PUBLIC ${ZAP_ASOUND_LIB})
-
-    # Include directory
-    target_include_directories(zita-alsa-pcmi PUBLIC source)
-
-    # alsa_delay application
-    add_executable(alsa_delay apps/alsa_delay.cc apps/mtdm.cc apps/pxthread.cc)
-
-    # Link system libs and zita-alsa-pcmi library to the alsa_delay executable
-    target_link_libraries(alsa_delay PUBLIC ${ZAP_PTHREAD_LIB} ${ZAP_RT_LIB} PRIVATE zita-alsa-pcmi)
-
-    # alsa_loopback application
-    add_executable(alsa_loopback apps/alsa_loopback.cc apps/pxthread.cc)
-
-    # Link Link system libs and zita-alsa-pcmi library to the alsa_loopback executable
-    target_link_libraries(alsa_loopback PUBLIC ${ZAP_PTHREAD_LIB} ${ZAP_RT_LIB} PRIVATE zita-alsa-pcmi)
+# Create unified alias target
+if(ZAP_USE_SHARED_LIB)
+    if(ZAP_BUILD_SHARED_LIB)
+        add_library(zita-alsa-pcmi::zita-alsa-pcmi ALIAS zita-alsa-pcmi-shared)
+    else()
+        # Use installed shared library
+        find_library(ZITA_ALSA_PCMI_LIB NAMES zita-alsa-pcmi REQUIRED)
+        find_path(ZITA_ALSA_PCMI_INCLUDE_DIR NAMES zita-alsa-pcmi.h REQUIRED)
+        add_library(zita-alsa-pcmi::zita-alsa-pcmi UNKNOWN IMPORTED)
+        set_target_properties(zita-alsa-pcmi::zita-alsa-pcmi PROPERTIES
+            IMPORTED_LOCATION ${ZITA_ALSA_PCMI_LIB}
+            INTERFACE_INCLUDE_DIRECTORIES ${ZITA_ALSA_PCMI_INCLUDE_DIR}
+        )
+    endif()
 else()
-    message(STATUS "Not building library zita-alsa-pcmi.")
-    
-    # alsa_delay application
-    add_executable(alsa_delay apps/alsa_delay.cc apps/mtdm.cc apps/pxthread.cc source/zita-alsa-pcmi.cc)
+    add_library(zita-alsa-pcmi::zita-alsa-pcmi ALIAS zita-alsa-pcmi-object)
+endif()
 
-    # Include directory
-    target_include_directories(alsa_delay PUBLIC source)
-
-    # Link Link system libs to the alsa_delay executable
-    target_link_libraries(alsa_delay PUBLIC ${ZAP_ASOUND_LIB} ${ZAP_PTHREAD_LIB} ${ZAP_RT_LIB})
-
-    # alsa_loopback application
-    add_executable(alsa_loopback apps/alsa_loopback.cc apps/pxthread.cc source/zita-alsa-pcmi.cc)
-
-    # Include directory
-    target_include_directories(alsa_loopback PUBLIC source)
-
-    # Link Link system libs to the alsa_loopback executable
-    target_link_libraries(alsa_loopback PUBLIC ${ZAP_ASOUND_LIB} ${ZAP_PTHREAD_LIB} ${ZAP_RT_LIB})
+if(ZAP_BUILD_APPS)
+    add_subdirectory(apps)
 endif()
