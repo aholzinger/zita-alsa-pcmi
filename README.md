@@ -27,15 +27,15 @@ configurations.
 
 #### 1. Library Only (for FetchContent)
 ```bash
-cmake -S . -B build
+cmake -S . -B build -DZAP_BUILD_SHARED_LIB=OFF -DZAP_BUILD_APPS=OFF -DZAP_USE_SHARED_LIB=OFF
 cmake --build build
 ```
-Builds the object library for direct inclusion. Ideal for embedding in other
-projects.
+Define the object library target for direct inclusion with FetchContent. Only
+builds the object library when actually used.
 
 #### 2. Build and Install Shared Library
 ```bash
-cmake -S . -B build -DZAP_BUILD_SHARED_LIB=ON
+cmake -S . -B build -DZAP_BUILD_SHARED_LIB=ON -DZAP_BUILD_APPS=OFF -DZAP_USE_SHARED_LIB=OFF
 cmake --build build
 cmake --install build
 ```
@@ -43,7 +43,7 @@ Creates and installs the shared library and headers.
 
 #### 3. Build Applications with Local Library
 ```bash
-cmake -S . -B build -DZAP_BUILD_APPS=ON
+cmake -S . -B build -DZAP_BUILD_SHARED_LIB=OFF -DZAP_BUILD_APPS=ON -DZAP_USE_SHARED_LIB=OFF
 cmake --build build
 ```
 Builds applications with the library sources included directly (static-like
@@ -58,7 +58,7 @@ Builds both shared library and applications linking to it.
 
 #### 5. Build Applications with Installed Shared Library
 ```bash
-cmake -S . -B build -DZAP_BUILD_APPS=ON -DZAP_USE_SHARED_LIB=ON
+cmake -S . -B build -DZAP_BUILD_SHARED_LIB=OFF -DZAP_BUILD_APPS=ON -DZAP_USE_SHARED_LIB=ON
 cmake --build build
 ```
 Builds applications linking to an installed shared library.
