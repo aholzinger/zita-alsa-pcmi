@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2012 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -17,10 +17,8 @@
 //
 // ----------------------------------------------------------------------------
 
-
 #ifndef __PXTHREAD_H
 #define __PXTHREAD_H
-
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -30,23 +28,18 @@
 #include <errno.h>
 #include <pthread.h>
 
-
-class Pxthread
-{
+class Pxthread {
 public:
+    Pxthread(void);
+    virtual ~Pxthread(void);
+    Pxthread(const Pxthread &);
+    Pxthread &operator=(const Pxthread &);
 
-    Pxthread (void);
-    virtual ~Pxthread (void);
-    Pxthread (const Pxthread&);
-    Pxthread& operator=(const Pxthread&);
-
-    virtual void thr_main (void) = 0;
-    virtual int  thr_start (int policy, int priority, size_t stacksize = 0);
+    virtual void thr_main(void) = 0;
+    virtual int thr_start(int policy, int priority, size_t stacksize = 0);
 
 private:
-  
-    pthread_t  _thrid;
+    pthread_t _thrid;
 };
-
 
 #endif

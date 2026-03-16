@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2006-2018 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -17,20 +17,15 @@
 //
 // ----------------------------------------------------------------------------
 
-
 #ifndef __MTDM_H
 #define __MTDM_H
 
-
 #include <unistd.h>
 
-
-class Freq
-{
+class Freq {
 public:
-
-    int   p;
-    int   f;
+    int p;
+    int f;
     float xa;
     float ya;
     float x1;
@@ -39,29 +34,31 @@ public:
     float y2;
 };
 
-
-class MTDM
-{
+class MTDM {
 public:
-
-    MTDM (int fsamp);
-    int process (size_t len, float *inp, float *out);
-    int resolve (void);
-    void invert (void) { _inv ^= 1; }
-    int    inv (void) { return _inv; }
-    double del (void) { return _del; }
-    double err (void) { return _err; }
+    MTDM(int fsamp);
+    int process(size_t len, float *inp, float *out);
+    int resolve(void);
+    void invert(void) {
+        _inv ^= 1;
+    }
+    int inv(void) {
+        return _inv;
+    }
+    double del(void) {
+        return _del;
+    }
+    double err(void) {
+        return _err;
+    }
 
 private:
-
-    double  _del;
-    double  _err;
-    float   _wlp;
-    int     _cnt;
-    int     _inv;
-    Freq    _freq [13];
+    double _del;
+    double _err;
+    float _wlp;
+    int _cnt;
+    int _inv;
+    Freq _freq[13];
 };
 
-
 #endif
-

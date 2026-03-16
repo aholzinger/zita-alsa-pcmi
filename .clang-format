@@ -1,0 +1,79 @@
+---
+Language:        Cpp
+Standard:        c++20
+
+# Indentation
+IndentWidth:                       4
+TabWidth:                          4
+UseTab:                            Never
+ContinuationIndentWidth:           8
+ConstructorInitializerIndentWidth: 4
+
+# No automatic line wrapping
+ColumnLimit:                       0
+
+# Opening brace on the same line (K&R / Attach style)
+BreakBeforeBraces:                 Attach
+
+# Pointer and reference declarators attached to the variable name
+PointerAlignment:                  Right
+ReferenceAlignment:                Right
+
+# Space after control-flow keywords: if (...), for (...), while (...), switch (...)
+SpaceBeforeParens:                 ControlStatements
+
+# case/default labels flush with the switch statement (not indented)
+IndentCaseLabels:                  false
+
+# goto labels and other non-switch labels at column 0 (outdented from surrounding block)
+IndentGotoLabels:                  false
+
+# Access specifiers (public:, protected:, private:) outdented by one indent level,
+# i.e. flush with the class keyword rather than with the class body
+AccessModifierOffset:              -4
+
+# Constructor initializer lists: comma-first style, one initializer per line
+BreakConstructorInitializers:      BeforeComma
+PackConstructorInitializers:       Never
+
+# Template declarations: always put the function/class on a new line after the template<>
+AlwaysBreakTemplateDeclarations:   Yes
+SpacesInAngles:                    Never
+
+# Preserve include order and grouping — do not sort or regroup
+SortIncludes:                      Never
+IncludeBlocks:                     Preserve
+
+# Do not collapse short constructs onto a single line
+AllowShortFunctionsOnASingleLine:  None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine:      false
+AllowShortLambdasOnASingleLine:    All
+
+# Align the = of consecutive assignments (e.g. aligned parameter-unpacking blocks)
+AlignConsecutiveAssignments:
+  Enabled:          true
+  AcrossComments:   false
+  AcrossEmptyLines: false
+
+# Align trailing //!< and // comments within a block
+AlignTrailingComments:
+  Kind:             Always
+  OverEmptyLines:   1
+
+# Miscellaneous spacing
+SpaceBeforeAssignmentOperators:    true
+SpaceAfterCStyleCast:              false
+SpacesInParentheses:               false
+SpacesInSquareBrackets:            false
+SpaceBeforeSquareBrackets:         false
+
+# Braced initializer lists: compact form without extra spaces  ({1, 2} not { 1, 2 })
+Cpp11BracedListStyle:              true
+
+# Namespace bodies are not indented
+NamespaceIndentation:              None
+
+# Do not reflow Doxygen block comments (/** ... */ and //! ...)
+ReflowComments:                    false
+SpacesBeforeTrailingComments:      1
